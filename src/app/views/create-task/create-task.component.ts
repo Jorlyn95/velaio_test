@@ -103,6 +103,13 @@ export class CreateTaskComponent implements OnInit {
       return false
     }
 
+    let valid=this.tmpPerson.filter((item:any)=>String(item.name).toLowerCase().includes(String(this.formPerson.get('name')?.value).trim()))
+
+    if(valid.length>0){
+      alert("Ya existe una persona con el mismo nombre")
+      return false
+    }
+
     return true
   }
 
