@@ -93,17 +93,12 @@ export class CreateTaskComponent implements OnInit {
       return false
     }
 
-    if (String(age).trim() == "") {
-      alert("Ingrese la edad responsable para poder continuar")
-      return false
-    }
-
     if (Number(age) <= 18) {
       alert("La edad permitida para las actividades tienen que ser mayor a 18 años")
       return false
     }
 
-    let valid=this.tmpPerson.filter((item:any)=>String(item.name).toLowerCase().includes(String(this.formPerson.get('name')?.value).trim()))
+    let valid=this.tmpPerson.filter((item:any)=>String(item.name).toLowerCase().includes(String(this.formPerson.get('name')?.value).toLowerCase().trim()))
 
     if(valid.length>0){
       alert("Ya existe una persona con el mismo nombre")
