@@ -1,0 +1,76 @@
+<app-navbar [currentLocation]="1" />
+
+<div class="p-10">
+
+    <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-4">
+
+
+        <div class="flex justify-end mt-2">
+            <button routerLink="/add" type="button" class="flex gap-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <app-icons icon="add" width="w-5" />
+                Crear Tarea
+            </button>
+        </div>
+
+        <form class="w-full mx-auto" [formGroup]="formSearch">
+            <label for="default-search"
+                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="search" id="default-search" formControlName="search" (keyup)="search()"
+                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Buscar tarea..." required />            
+            </div>
+        </form>
+
+
+        <div class="relative overflow-x-auto mt-2">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th *ngFor="let item of arrayCols" scope="col" class="px-6 py-3">
+                            {{item}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of tmpData; let i=index" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{i+1}}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{item.name}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.limite | date:"dd/MM/yyyy"}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{item.persons.length}}
+                        </td>
+                        <td>
+                            <select (change)="changeStatus(i, $event)" [(ngModel)]="item.status" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="1">Pendiente</option>
+                                <option value="2">Completada</option>
+                              </select>
+                        </td>
+                        <td class="px-6 py-4 flex gap-2">
+                            <app-icons (click)="deleteTask(item.id)" icon="trash" width="w-7" class="text-red-600" />
+                            <a [routerLink]="'/add/'+ item.id" *ngIf="item.status=='1'">
+                                <app-icons icon="edit" width="w-7" class="text-green-600" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>  
+
+</div>
